@@ -1,6 +1,6 @@
 # E2E authentication using Azure AD for Azure SQL Database 
 
-![img](img/architecture.png)    
+![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/architecture.png)    
 
 
 
