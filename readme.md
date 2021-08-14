@@ -16,7 +16,7 @@ app that you can use to get access tokens | I am using simple Node.JS app for th
 
 
 ## Ensure Azure AD Application has permissions for Azure SQL Database
-![img](img/app.png)
+![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/app.png?raw=true)
 
 ## Enable Azure AD Admin on database
 - This step is outlined in the [provision-azure-ad-admin-sql-database](https://docs.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?tabs=azure-powershell#provision-azure-ad-admin-sql-database)
@@ -24,7 +24,7 @@ app that you can use to get access tokens | I am using simple Node.JS app for th
 ## Add principal for the database and grant access to existing database
 
 - You can use the query editor in portal to create the user in DB
-![img](img/query.png)
+![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/query.png?raw=true)
 
 - Create table Persons and insert some records there
 ```sql
@@ -102,6 +102,18 @@ function queryDatabase() {
 }
 
 ```
+
+- Example result
+```
+Reading rows from the Table...
+PersonID        1234
+LastName        John
+FirstName       Doe
+PersonID        334
+LastName        jake
+FirstName       as
+2 row(s) returned
+``` 
 
 
 
