@@ -33,6 +33,8 @@ CREATE TABLE Persons (
     LastName varchar(255),
     FirstName varchar(255),
 );
+INSERT INTO [Persons]
+VALUES (122,'john','doe');
 ```
 
 ```sql
