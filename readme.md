@@ -134,7 +134,7 @@ FirstName       as
 2 row(s) returned
 ``` 
 ## Logging example
-![img](img/logs.png)
+![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/logs.png?raw=true)
 ```
 union AADNonInteractiveUserSignInLogs, SigninLogs
 | where ResourceDisplayName == "Azure SQL Database"
