@@ -1,7 +1,24 @@
 # E2E authentication using Azure AD for Azure SQL Database 
 
-![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/architecture.png?raw=true)    
+![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/architecture.png?raw=true)   
 
+- [E2E authentication using Azure AD for Azure SQL Database](#e2e-authentication-using-azure-ad-for-azure-sql-database)
+  - [Benefits](#benefits)
+  - [Setup](#setup)
+    - [Ensure Azure AD Application has permissions for Azure SQL Database](#ensure-azure-ad-application-has-permissions-for-azure-sql-database)
+    - [Enable Azure AD Admin on database](#enable-azure-ad-admin-on-database)
+    - [Add principal for the database and grant access to existing database using the azure ad admin user](#add-principal-for-the-database-and-grant-access-to-existing-database-using-the-azure-ad-admin-user)
+    - [Query with Node.JS using tedious](#query-with-nodejs-using-tedious)
+  - [Logging example](#logging-example)
+
+## Benefits
+Provides end to end Azure AD authorization and logging all the way to authorizing user in SQL table level.
+
+Source | LogName
+  ---|---|  
+Azure AD  ➡ | ``AADNonInteractiveUserSignInLogs, SigninLogs`` 
+| Web App  ➡ | `` WebApp Logs (AppServiceConsoleLogs...,...,)`` 
+Database / Table 📑 | `` AzureDiagnostics - SQLSecurityAuditEvents`` 
 
 
 ## Setup
@@ -15,13 +32,13 @@ MS Docs Source 2| [connect-query-nodejs](https://docs.microsoft.com/en-us/azure/
 app that you can use to get access tokens | I am using simple Node.JS app for this. various tutorials exist for this part if needed
 
 
-## Ensure Azure AD Application has permissions for Azure SQL Database
+### Ensure Azure AD Application has permissions for Azure SQL Database
 ![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/app.png?raw=true)
 
-## Enable Azure AD Admin on database
+### Enable Azure AD Admin on database
 - This step is outlined in the [provision-azure-ad-admin-sql-database](https://docs.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?tabs=azure-powershell#provision-azure-ad-admin-sql-database)
 
-## Add principal for the database and grant access to existing database using the azure ad admin user
+### Add principal for the database and grant access to existing database using the azure ad admin user
 
 - You can use the query editor in portal to create the user in DB
 ![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/query.png?raw=true)
@@ -45,7 +62,7 @@ EXEC sp_table_privileges
 ```
 
 
-## Query with Node.JS using tedious
+### Query with Node.JS using tedious
 
 - Below is example snippet
 ```javascript
@@ -116,7 +133,16 @@ LastName        jake
 FirstName       as
 2 row(s) returned
 ``` 
-
+## Logging example
+![img](img/logs.png)
+```
+union AADNonInteractiveUserSignInLogs, SigninLogs
+| where ResourceDisplayName == "Azure SQL Database"
+| summarize make_set(Location) by UserPrincipalName, ResourceDisplayName, tokenRefreshed= TimeGenerated, AppDisplayName
+| join kind=inner (AzureDiagnostics
+| where ResourceProvider =="MICROSOFT.SQL" | project session_server_principal_name_s, statement_s, sqlTime=TimeGenerated) on $left.UserPrincipalName == $right.session_server_principal_name_s
+| project session_server_principal_name_s, tokenRefreshed, sqlTime, query=statement_s, app=strcat(AppDisplayName, '-', ResourceDisplayName)
+```
 
 
 

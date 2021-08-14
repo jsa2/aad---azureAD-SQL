@@ -5,7 +5,7 @@ const { Connection, Request } = require("tedious");
 var token = require('../azapp/tok.json').access_token
 
 const config = {
-    server: "latestings.database.windows.net",
+    server: "thx138.database.windows.net",
     authentication: {
         type: 'azure-active-directory-access-token',
         options:{
@@ -13,7 +13,7 @@ const config = {
         }
     },
     options: {
-        database: 'userdbs2',
+        database: 'userdbs',
         encrypt: true,
         port: 1433,
         token,
@@ -68,7 +68,7 @@ function queryDatabase() {
 
   // Read all rows from table
   const request = new Request(
-    `SELECT * FROM [dbo].[Persons]`,
+    `SELECT * FROM dbo.cats;`,
     (err, rowCount) => {
       if (err) {
         console.error(err.message);
