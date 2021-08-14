@@ -21,7 +21,7 @@ app that you can use to get access tokens | I am using simple Node.JS app for th
 ## Enable Azure AD Admin on database
 - This step is outlined in the [provision-azure-ad-admin-sql-database](https://docs.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?tabs=azure-powershell#provision-azure-ad-admin-sql-database)
 
-## Add principal for the database and grant access to existing database
+## Add principal for the database and grant access to existing database using the azure ad admin user
 
 - You can use the query editor in portal to create the user in DB
 ![img](https://github.com/jsa2/aad---azureAD-SQL/blob/main/img/query.png?raw=true)
