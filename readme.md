@@ -7,7 +7,7 @@
 ## Setup
 
 setting | value
-- | -
+- | - 
 Tested on Azure SQL Database | `` Standard S1: 20 DTUs & Basic `` | 
 | Azure AD Application Configured for API scope |``https://database.windows.net/user_impersonation`` 
 | MS Docs Source 1 | [provision-azure-ad-admin-sql-database](https://docs.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?tabs=azure-powershell#provision-azure-ad-admin-sql-database) 
