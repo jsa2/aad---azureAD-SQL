@@ -1,5 +1,9 @@
 # E2E authentication using Azure AD for Azure SQL Database 
 
+![img](img/architecture.png)    
+
+
+
 ## Setup
 
 setting | value
@@ -22,7 +26,7 @@ app that you can use to get access tokens | I am using simple Node.JS app for th
 - You can use the query editor in portal to create the user in DB
 ![img](img/query.png)
 
-- Create table Persons
+- Create table Persons and insert some records there
 ```sql
 CREATE TABLE Persons (
     PersonID int,
@@ -39,8 +43,9 @@ EXEC sp_table_privileges
 ```
 
 
-## Query with Node.JS
+## Query with Node.JS using tedious
 
+- Below is example snippet
 ```javascript
 // Token is provided by app of your choosing (Not included in this sample)
 const config = {
@@ -58,6 +63,43 @@ const config = {
         token,
     }
 };
+
+const connection = new Connection(config);
+
+// Attempt to connect and execute queries if connection goes through
+connection.on("connect", err => {
+  if (err) {
+    console.error(err.message);
+  } else {
+    queryDatabase();
+  }
+});
+
+connection.connect();
+
+function queryDatabase() {
+  console.log("Reading rows from the Table...");
+
+  // Read all rows from table
+  const request = new Request(
+    `SELECT * FROM [dbo].[Persons]`,
+    (err, rowCount) => {
+      if (err) {
+        console.error(err.message);
+      } else {
+        console.log(`${rowCount} row(s) returned`);
+      }
+    }
+  );
+
+  request.on("row", columns => {
+    columns.forEach(column => {
+      console.log("%s\t%s", column.metadata.colName, column.value);
+    })
+  });
+
+  connection.execSql(request);
+}
 
 ```
 
