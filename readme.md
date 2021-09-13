@@ -55,6 +55,7 @@ VALUES (122,'john','doe');
 ```
 
 ```sql
+CREATE USER [apimdeveos] FROM EXTERNAL PROVIDER
 CREATE USER [Dennis.Hale@dewi.red] FROM EXTERNAL PROVIDER;
 GRANT SELECT ON [dbo].[Persons] TO  [Dennis.Hale@dewi.red];
 EXEC sp_table_privileges   
